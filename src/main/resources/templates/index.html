@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8">
+    <title>Todo App</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+
+    <style>
+        .table th, .table td {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="container">
+
+        <br>
+        <h1 class="text-center">Todo App</h1>
+        <br>
+
+        <nav class="navbar justify-content-between">
+            <div class="d-flex">
+
+                <form class="form-inline">
+                    <div class="input-group">
+                        <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="submit">Search</button>
+                        </div>
+                    </div>
+                </form>
+
+                <span style="margin-left: 10px">
+                    <a class="btn btn-danger" href="/">
+                      <i class="bi bi-x-square-fill"></i> Fillter
+                    </a>
+                </span>
+            </div>
+            <span style="margin-left: 10px"> <a class="btn btn-success" href="/add-task">
+                    <i class="bi bi-x-square-fill"></i> + Add</a>
+            </span>
+        </nav>
+
+        <table class="table table-bordered">
+            <thead>
+                <tr class="text-center">
+                    <th class="col" style="max-width: 10px">Trạng thái</th>
+                    <th class="col">Tiêu đề</th>
+                    <th class="col" style="min-width: 10px">Mức độ quan trọng</th>
+                    <th class="col">T/g lên lịch</th>
+                    <th class="col">T/g hoàn thành</th>
+                    <th class="col">Ghi chú</th>
+                    <th class="col">AC</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr th:each="task : ${todoList}">
+                    <td th:if="${task.status != null}" th:text="${task.status.displayName}"></td>
+                    <td th:text="${task.title}" style="max-width: 300px"></td>
+                    <td th:if="${task.priority != null}" th:text="${task.priority.displayName}"></td>
+                    <td th:text="${#temporals.format(task.startDay, 'dd-MM-yyyy')}"></td>
+                    <td th:text="${#temporals.format(task.finishDay, 'dd-MM-yyyy')}"></td>
+                    <td th:text="${task.note}"></td>
+                    <td class="text-center" style="min-width: 5px">
+                        <div class="btn btn-group-sm" role="group">
+                            <a th:href="@{/edit-task/{id}(id = ${task.id})}" style="margin-left: 7px; color: green"><i class="fa-solid fa-pen-to-square"></i></a>
+                            <a th:href="@{/delete-task/{id}(id = ${task.id})}" style="color: red"><i class="fa-solid fa-trash"></i></a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</body>
+</html>
