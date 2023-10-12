@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class TaskController {
 
     @Autowired
-    private TaskRepository repository;
+    private TaskRepository taskRepository;
 
     @Autowired
-    private TaskService service;
+    private TaskService taskService;
 
     @GetMapping("/add-task")
     public String showCreateForm(Model model) {
@@ -27,13 +27,13 @@ public class TaskController {
 
     @PostMapping("/save-task")
     public String saveTask(Task task) {
-        repository.save(task);
+        taskRepository.save(task);
         return "redirect:/";
     }
 
     @GetMapping("/edit-task/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-        Task task = service
+        Task task = taskService
                 .getById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Task id: " + id + " not found"));
         model.addAttribute("task", task);
@@ -42,7 +42,7 @@ public class TaskController {
 
     @PostMapping("/update-task/{id}")
     public String updateTask(@PathVariable("id") Integer id, Task task) {
-        Task updateTask = service
+        Task updateTask = taskService
                 .getById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Task id: " + id + " not found"));
 
@@ -56,16 +56,16 @@ public class TaskController {
         if (task.getFinishDay() != null)
              updateTask.setFinishDay(task.getFinishDay());
 
-        service.save(updateTask);
+        taskService.save(updateTask);
         return "redirect:/";
     }
 
     @GetMapping("/delete-task/{id}")
     public String deleteTask(@PathVariable("id") Integer id) {
-        Task task = service
+        Task task = taskService
                 .getById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Task id: " + id + " not found"));
-        service.delete(task);
+        taskService.delete(task);
         return "redirect:/";
     }
 }

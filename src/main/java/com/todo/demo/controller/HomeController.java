@@ -10,11 +10,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class HomeController {
 
     @Autowired
-    private TaskService service;
+    private TaskService taskService;
 
-    @GetMapping("/")
+    @GetMapping({"/", "refresh"})
     public String homePage(Model model) {
-        model.addAttribute("todoList", service.getAll());
+        model.addAttribute("todoList", taskService.getAll());
         return "index";
     }
+
+    /*@GetMapping("/check-task")
+    public String showCheckPage(Model model) {
+
+        Map<Status, Long> statusCount = todoList.stream()
+                .collect(Collectors.groupingBy(Task::getStatus, Collectors.counting()));
+        model.addAttribute("statusCount", statusCount);
+        return "check-task";
+    }*/
 }
