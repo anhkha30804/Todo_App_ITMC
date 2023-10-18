@@ -6,6 +6,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 @Controller
 public class HomeController {
 
@@ -18,12 +21,16 @@ public class HomeController {
         return "index";
     }
 
-    /*@GetMapping("/check-task")
+    @GetMapping("/check-task")
     public String showCheckPage(Model model) {
+        Map<String, Integer> map = new LinkedHashMap<>();
 
-        Map<Status, Long> statusCount = todoList.stream()
-                .collect(Collectors.groupingBy(Task::getStatus, Collectors.counting()));
-        model.addAttribute("statusCount", statusCount);
+        map.put("Chưa hoàn thành", taskService.getCountTask().get("Chưa hoàn thành"));
+        map.put("Đang hoàn thành", taskService.getCountTask().get("Đang làm"));
+        map.put("Đã hoàn thành", taskService.getCountTask().get("Hoàn thành"));
+
+        model.addAttribute("count", taskService.getCountTask());
+        model.addAttribute("chart", map);
         return "check-task";
-    }*/
+    }
 }

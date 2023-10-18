@@ -8,8 +8,8 @@ import lombok.Getter;
 public enum Status {
 
     IN_COMPLETE("Chưa hoàn thành"),
-    IN_PROGRESS("Đang hoàn thành"),
-    COMPLETED("Đã hoàn thành"),
+    IN_PROGRESS("Đang làm"),
+    COMPLETED("Hoàn thành"),
     CANCELLED("Bị hủy"),
     OVERDUE("Quá hạn");
 

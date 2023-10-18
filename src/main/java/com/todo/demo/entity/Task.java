@@ -13,11 +13,12 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-@Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
 @Table(name = "task")
 public class Task implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
@@ -33,4 +34,5 @@ public class Task implements Serializable {
     private LocalDate finishDay;
 
     private String note;
+
 }

@@ -16,7 +16,7 @@ public class SearchController {
     @Autowired
     SearchService searchService;
 
-    @GetMapping("/search-title")
+    @GetMapping("/search")
     public String searchByTitle(@RequestParam("searchTitle") String searchTitle, Model model) {
         List<Task> searchResult = searchService.searchByTitle(searchTitle);
         if (!searchResult.isEmpty()) {
@@ -25,4 +25,5 @@ public class SearchController {
         }
         return "redirect:/";
     }
+
 }

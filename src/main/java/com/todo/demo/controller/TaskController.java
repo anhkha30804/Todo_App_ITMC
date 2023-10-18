@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.time.LocalDate;
 @Controller
 public class TaskController {
 
@@ -27,6 +28,7 @@ public class TaskController {
 
     @PostMapping("/save-task")
     public String saveTask(Task task) {
+        task.setStartDay(LocalDate.now());
         taskRepository.save(task);
         return "redirect:/";
     }
@@ -51,10 +53,8 @@ public class TaskController {
         updateTask.setPriority(task.getPriority());
         updateTask.setNote(task.getNote());
 
-        if (task.getStartDay() != null)
-             updateTask.setStartDay(task.getStartDay());
         if (task.getFinishDay() != null)
-             updateTask.setFinishDay(task.getFinishDay());
+            updateTask.setFinishDay(task.getFinishDay());
 
         taskService.save(updateTask);
         return "redirect:/";
