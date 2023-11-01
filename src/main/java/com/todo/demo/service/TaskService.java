@@ -22,8 +22,13 @@ public class TaskService {
         List<Task> todoList = taskRepository.findAll();
         if (!todoList.isEmpty()) {
             for (Task task : todoList)
-                if (!task.getStatus().equals(Status.COMPLETED) && task.getFinishDay().isBefore(LocalDate.now()) && !task.getStatus().equals(Status.CANCELLED))
-                    task.setStatus(Status.OVERDUE);
+                if (task.getFinishDay().isBefore(LocalDate.now())) {
+                    if (!task.getStatus().equals(Status.OVERDUE) && !task.getStatus().equals(Status.COMPLETED) && !task.getStatus().equals(Status.CANCELLED)) {
+                        task.setStatus(Status.OVERDUE);
+                        taskRepository.save(task);
+                    }
+                } else continue;
+
             return todoList;
         }
         return null;
@@ -41,15 +46,15 @@ public class TaskService {
         taskRepository.delete(task);
     }
 
-    public Map<String, Integer> getCountTask() {
-        Map<String, Integer> count = new HashMap<>();
+    public Map<String, Integer> count() {
+        Map<String, Integer> countTask = new HashMap<>();
 
-        count.put("Chưa hoàn thành", taskRepository.countTaskByStatus(Status.IN_COMPLETE));
-        count.put("Hoàn thành", taskRepository.countTaskByStatus(Status.COMPLETED));
-        count.put("Đang làm", taskRepository.countTaskByStatus(Status.IN_PROGRESS));
-        count.put("Quá hạn", taskRepository.countTaskByStatus(Status.OVERDUE));
-        count.put("Bị hủy", taskRepository.countTaskByStatus(Status.CANCELLED));
+        countTask.put("Chưa hoàn thành", taskRepository.countTaskByStatus(Status.IN_COMPLETE));
+        countTask.put("Hoàn thành", taskRepository.countTaskByStatus(Status.COMPLETED));
+        countTask.put("Đang làm", taskRepository.countTaskByStatus(Status.IN_PROGRESS));
+        countTask.put("Quá hạn", taskRepository.countTaskByStatus(Status.OVERDUE));
+        countTask.put("Bị hủy", taskRepository.countTaskByStatus(Status.CANCELLED));
 
-        return count;
+        return countTask;
     }
 }

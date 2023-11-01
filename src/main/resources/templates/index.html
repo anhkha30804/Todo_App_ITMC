@@ -11,15 +11,15 @@
             width: 50%;
             margin: 0 auto;
         }
-        .table th, .table td {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+        .multi-line {
+            white-space: pre-wrap;
         }
         .custom-text {
             text-align: center;
         }
     </style>
+
+
 
 </head>
 
@@ -27,7 +27,9 @@
     <div class="container">
 
         <br>
-        <h2 class="text-center">Todo App</h2>
+        <h2 class="text-center" >Todo App
+            <i class="fa-regular fa-calendar-check"></i>
+        </h2>
         <br>
 
         <form class="form-inline" th:action="@{/search}">
@@ -139,7 +141,7 @@
         <table class="table table-bordered">
             <thead>
                 <tr class="text-center">
-                    <th class="col" style="max-width: 10px">Trạng thái</th>
+                    <th class="col" style="max-width: 45px">Trạng thái</th>
                     <th class="col">Tiêu đề</th>
                     <th class="col" style="min-width: 10px">Mức độ quan trọng</th>
                     <th class="col">T/g lên lịch</th>
@@ -152,11 +154,11 @@
             <tbody>
                 <tr th:each="task : ${todoList}">
                     <td class="custom-text" th:if="${task.status != null}" th:text="${task.status.displayName}"></td>
-                    <td th:text="${task.title}" style="max-width: 300px"></td>
+                    <td class="multi-line" th:text="${task.title}" style="max-width: 300px"></td>
                     <td class="custom-text" th:if="${task.priority != null}" th:text="${task.priority.displayName}"></td>
                     <td class="custom-text" th:text="${#temporals.format(task.startDay, 'dd-MM-yyyy')}"></td>
                     <td class="custom-text" th:text="${#temporals.format(task.finishDay, 'dd-MM-yyyy')}"></td>
-                    <td th:text="${task.note}"></td>
+                    <td class="multi-line" th:text="${task.note}" style="max-width: 200px"></td>
                     <td class="custom-text" style="min-width: 5px">
                         <div class="btn btn-group-sm" role="group">
                             <a th:href="@{/edit-task/{id}(id = ${task.id})}" style="margin-left: 7px; color: green"><i class="fa-solid fa-pen-to-square"></i></a>
